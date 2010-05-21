@@ -106,16 +106,16 @@ var MP = {
     return (num * this.factorial(num - 1));
   },
   // alteration of function from http://www.ideashower.com/our_solutions/leastgreatest-common-mulitple-lcmgcm-in-php-and-javascript/
-  'gcm': function gcm() {
+  'gcd': function gcd() {
   	var args = Array.prototype.slice.call(arguments);
   	
-  	function __gcm(a, b) {
-    	return (b == 0) ? a : __gcm(b, a % b);
+  	function __gcd(a, b) {
+    	return (b == 0) ? a : __gcd(b, a % b);
     }
   	
   	if (args.length > 1) {
-  		args.push(__gcm(args.shift(), args.shift()));
-  		return gcm.apply(this, args);
+  		args.push(__gcd(args.shift(), args.shift()));
+  		return gcd.apply(this, args);
   	}
 		return args[0];
   },
@@ -124,7 +124,7 @@ var MP = {
   	var args = Array.prototype.slice.call(arguments);
   	
   	function __lcm(a, b) {
-    	return (a / gcm(a,b) * b);
+    	return (a / gcd(a,b) * b);
     }
   	
   	if (args.length > 1) {
