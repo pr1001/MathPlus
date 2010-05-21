@@ -133,5 +133,161 @@ var MP = {
   		return lcm.apply(this, args);
   	}
 		return args[0];
+  },
+  'limit': function limit(f, x, places) {
+    if (typeof places != "number" && !(places instanceof Number)) {
+    	places = 10;
+  	}
+    
+    var atX = f(x);
+    // we assume that if it's not a NaN that Javascript has correctly calculated the function
+    if (!isNaN(atX)) {
+      return atX;
+    } else { // else we got a NaN
+      // we need to approach x in order to make an approximation of f(x)
+      // if x is Infinity
+      if (x === Number.POSITIVE_INFINITY) {
+        // approach from the left
+        return this.limitLeft(f, x, places);
+      // else if x is -Infinity
+      } else if (x === Number.NEGATIVE_INFINITY) {
+        // approach from the right
+        return this.limitRight(f, x, places);
+      // else if we don't have a number
+      } else if (isNaN(x)) {
+        // not sure why this would happen... the user being stupid I guess
+        return Number.NaN;
+      // else we have a number (-Infinity, Infinity)
+      } else {
+        // approach from both left and right
+        var left = this.limitLeft(f, x, places);
+        var right = this.limitRight(f, x, places);
+        // if left and right values match, return
+        if (left == right) {
+          return left;
+        }
+        // else, there's no convergence. This is a sign to the user they may want to try the limit from only one side
+        return Number.NaN;
+      }
+    }
+  },
+  // approach x from values greater than x
+  'limitRight': function limitRight(f, x, places) {
+    if (typeof places != "number" && !(places instanceof Number)) {
+    	places = 10;
+  	}
+  	
+  	// populate test numbers
+  	var testNums = [];
+  	var testResults = [];
+  	// use x as the input seed for the numbers used in our approximation
+  	var testNumber = x;
+  	var verySmallNumber = 1e-10
+  	if (places > 10) {
+    	verySmallNumber = eval("1e-" + places);
+  	}
+  	
+  	// check five times against our numbers very slightly different from x
+  	for (var k = 0; k < 5; k++) {
+    	testNumber += verySmallNumber;
+    	testNums.push(testNumber);
+    	testResults.push(f(testNumber));
+  	}
+  	
+  	var allRounded = testResults.map(function(a) {
+    	return MP.round(a, places);
+  	});
+  	// if we don't have a native reduce method, add it to just the allRounded array
+  	if (!allRounded.reduce) {
+      allRounded.reduce = this.__reduce;
+    }
+    var allEqual = allRounded.reduce(function(a, b) {
+      return a == b;
+    });
+    // if all the rounded values are equal
+    if (allEqual == true) {
+      // return the rounded value
+      return allRounded[0];
+    }
+    return Number.NaN;
+  },
+  // approach x from values less than x
+  'limitLeft': function limitLeft(f, x, places) {
+    if (typeof places != "number" && !(places instanceof Number)) {
+    	places = 10;
+  	}
+  	
+  	// populate test numbers
+  	var testNums = [];
+  	var testResults = [];
+  	// use x as the input seed for the numbers used in our approximation
+  	var testNumber = x;
+  	var verySmallNumber = 1e-10
+  	if (places > 10) {
+    	verySmallNumber = eval("1e-" + places);
+  	}
+  	
+  	// check five times against our numbers very slightly different from x
+  	for (var k = 0; k < 5; k++) {
+    	testNumber -= verySmallNumber;
+    	testNums.push(testNumber);
+    	testResults.push(f(testNumber));
+  	}
+  	
+  	var allRounded = testResults.map(function(a) {
+    	return MP.round(a, places);
+  	});
+  	// if we don't have a native reduce method, add it to just the allRounded array
+  	if (!allRounded.reduce) {
+      allRounded.reduce = this.__reduce;
+    }
+    var allEqual = allRounded.reduce(function(a, b) {
+      return a == b;
+    });
+    // if all the rounded values are equal
+    if (allEqual == true) {
+      // return the rounded value
+      return allRounded[0];
+    }
+    return Number.NaN;
+  },
+  '__reduce': function __reduce(fun /*, initial*/) {
+    var len = this.length >>> 0;
+    if (typeof fun != "function")
+      throw new TypeError();
+
+    // no value to return if no initial value and an empty array
+    if (len == 0 && arguments.length == 1)
+      throw new TypeError();
+
+    var i = 0;
+    if (arguments.length >= 2)
+    {
+      var rv = arguments[1];
+    }
+    else
+    {
+      do
+      {
+        if (i in this)
+        {
+          var rv = this[i++];
+          break;
+        }
+
+        // if array contains no values, no initial value to return
+        if (++i >= len)
+          throw new TypeError();
+      }
+      while (true);
+    }
+
+    for (; i < len; i++)
+    {
+      if (i in this)
+        rv = fun.call(null, rv, this[i], i, this);
+    }
+
+    return rv;
   }
 };
