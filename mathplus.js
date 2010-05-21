@@ -81,7 +81,8 @@ var MP = {
   'random': function random(rangeStart, rangeEnd) {
     // if there's no difference between the two points
     if (rangeStart == rangeEnd) {
-      throw new Error("The start and end points of the range in which the random number is to be found are the same, meaning that no random number can be generated.");
+      // throw new Error("The start and end points of the range in which the random number is to be found are the same, meaning that no random number can be generated.");
+      return rangeStart;
     }
     if (typeof rangeStart != "number" && !(rangeStart instanceof Number)) {
     	rangeStart = 0;
