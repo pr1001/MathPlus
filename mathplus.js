@@ -182,6 +182,16 @@ var MP = {
   	var testResults = [];
   	// use x as the input seed for the numbers used in our approximation
   	var testNumber = x;
+  	if (x === Number.POSITIVE_INFINITY) {
+    	// can't approach from the right
+    	return Number.NaN;
+  	} else if (x === Number.NEGATIVE_INFINITY) {
+    	// use the smallest number possible to approach -Infinity
+    	// PROTIP: Number.MIN_VALUE is the smallest possible number __greater than zero__
+    	// FIXME: Number.MAX_VALUE plus or multiplied by anything (i.e. in f) = Infinity... use Number.MAX_VALUE/2?
+    	testNumber = -Number.MAX_VALUE / 10;
+  	}
+  	
   	var verySmallNumber = 1e-10
   	if (places > 10) {
     	verySmallNumber = eval("1e-" + places);
@@ -197,13 +207,10 @@ var MP = {
   	var allRounded = testResults.map(function(a) {
     	return MP.round(a, places);
   	});
-  	// if we don't have a native reduce method, add it to just the allRounded array
-  	if (!allRounded.reduce) {
-      allRounded.reduce = this.__reduce;
+  	var allEqual = true;
+    for (var k = 1; k < allRounded.length; k++) {
+      allEqual = allEqual && (allRounded[k-1] == allRounded[k]);
     }
-    var allEqual = allRounded.reduce(function(a, b) {
-      return a == b;
-    });
     // if all the rounded values are equal
     if (allEqual == true) {
       // return the rounded value
@@ -213,6 +220,7 @@ var MP = {
   },
   // approach x from values less than x
   'limitLeft': function limitLeft(f, x, places) {
+    
     if (typeof places != "number" && !(places instanceof Number)) {
     	places = 10;
   	}
@@ -222,6 +230,15 @@ var MP = {
   	var testResults = [];
   	// use x as the input seed for the numbers used in our approximation
   	var testNumber = x;
+  	if (x === Number.NEGATIVE_INFINITY) {
+    	// can't approach from the left
+    	return Number.NaN;
+  	} else if (x === Number.POSITIVE_INFINITY) {
+    	// use the largest number possible to approach Infinity
+    	// FIXME: Number.MAX_VALUE plus or multiplied by anything (i.e. in f) = Infinity... use Number.MAX_VALUE/2?
+    	testNumber = Number.MAX_VALUE / 10;
+  	}
+  	
   	var verySmallNumber = 1e-10
   	if (places > 10) {
     	verySmallNumber = eval("1e-" + places);
@@ -237,57 +254,15 @@ var MP = {
   	var allRounded = testResults.map(function(a) {
     	return MP.round(a, places);
   	});
-  	// if we don't have a native reduce method, add it to just the allRounded array
-  	if (!allRounded.reduce) {
-      allRounded.reduce = this.__reduce;
+    var allEqual = true;
+    for (var k = 1; k < allRounded.length; k++) {
+      allEqual = allEqual && (allRounded[k-1] == allRounded[k]);
     }
-    var allEqual = allRounded.reduce(function(a, b) {
-      return a == b;
-    });
     // if all the rounded values are equal
     if (allEqual == true) {
       // return the rounded value
       return allRounded[0];
     }
     return Number.NaN;
-  },
-  '__reduce': function __reduce(fun /*, initial*/) {
-    var len = this.length >>> 0;
-    if (typeof fun != "function")
-      throw new TypeError();
-
-    // no value to return if no initial value and an empty array
-    if (len == 0 && arguments.length == 1)
-      throw new TypeError();
-
-    var i = 0;
-    if (arguments.length >= 2)
-    {
-      var rv = arguments[1];
-    }
-    else
-    {
-      do
-      {
-        if (i in this)
-        {
-          var rv = this[i++];
-          break;
-        }
-
-        // if array contains no values, no initial value to return
-        if (++i >= len)
-          throw new TypeError();
-      }
-      while (true);
-    }
-
-    for (; i < len; i++)
-    {
-      if (i in this)
-        rv = fun.call(null, rv, this[i], i, this);
-    }
-
-    return rv;
   }
 };
