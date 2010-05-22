@@ -3,7 +3,7 @@
  * A better mathematics library for Javascript.
  */
 
-var MP = {
+var M = {
   // Created 1997 by Brian Risk.  http://brianrisk.com
   // from http://www.geneffects.com/briarskin/programming/newJSMathFuncs.html
   'log': function log(x, base) {
@@ -220,7 +220,6 @@ var MP = {
   },
   // approach x from values less than x
   'limitLeft': function limitLeft(f, x, places) {
-    
     if (typeof places != "number" && !(places instanceof Number)) {
     	places = 10;
   	}
