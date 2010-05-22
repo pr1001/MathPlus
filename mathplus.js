@@ -79,17 +79,19 @@ var M = {
     return (degrees * (Math.PI / 180));
   },
   'random': function random(rangeStart, rangeEnd) {
-    // if there's no difference between the two points
-    if (rangeStart == rangeEnd) {
-      // throw new Error("The start and end points of the range in which the random number is to be found are the same, meaning that no random number can be generated.");
-      return rangeStart;
-    }
     if (typeof rangeStart != "number" && !(rangeStart instanceof Number)) {
     	rangeStart = 0;
   	}
   	if (typeof rangeEnd != "number" && !(rangeEnd instanceof Number)) {
     	rangeEnd = 1;
   	}
+  	
+    // if there's no difference between the two points
+    if (rangeStart == rangeEnd) {
+      // throw new Error("The start and end points of the range in which the random number is to be found are the same, meaning that no random number can be generated.");
+      return rangeStart;
+    }
+  	
   	// make sure rangeEnd > rangeStart
   	if (rangeEnd < rangeStart) {
     	var tmp = rangeEnd;
