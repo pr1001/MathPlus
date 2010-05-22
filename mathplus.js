@@ -100,11 +100,14 @@ var M = {
   	}
     return ((Math.random() * (rangeEnd - rangeStart)) + rangeStart);
   },
-  // NOTE: The number is always converted to a non-negative integer
+  // NOTE: The number is always converted to an integer
   'factorial': function factorial(num) {
-    num = Math.abs(parseInt(num))
-    if (num <= 1) {
+    num = parseInt(num)
+    if (num == 1 || num == 0) {
       return 1;
+    } else if (num < 0) {
+      // return NaN like supposed to for negative numbers
+      return Number.NaN;
     }
     return (num * this.factorial(num - 1));
   },
