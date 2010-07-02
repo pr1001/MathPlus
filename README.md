@@ -9,3 +9,4 @@ Everything lives under the M object. Functions include:
 - round: Default significant digitis is 2.
 - factorial: Returns NaN for NaN for negative numbers.
 - limit: Provides an approximation. Works in some cases with +/- Infitity. Needs some additional tweaking.
+- derivative: Given f and x, will provide an approximation of the derivative of function f at point x. Round the result to get integers for derivatives of common functions, e.g. of f(x) = 3*x.

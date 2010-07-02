@@ -4,6 +4,8 @@
  */
 
 var M = {
+  // constant used in approximations
+  'SMALL_NUMBER': 1e-10,
   // Created 1997 by Brian Risk.  http://brianrisk.com
   // from http://www.geneffects.com/briarskin/programming/newJSMathFuncs.html
   'log': function log(x, base) {
@@ -197,7 +199,7 @@ var M = {
     	testNumber = -Number.MAX_VALUE / 10;
   	}
   	
-  	var verySmallNumber = 1e-10
+  	var verySmallNumber = M.SMALL_NUMBER;
   	if (places > 10) {
     	verySmallNumber = eval("1e-" + places);
   	}
@@ -243,7 +245,7 @@ var M = {
     	testNumber = Number.MAX_VALUE / 10;
   	}
   	
-  	var verySmallNumber = 1e-10
+  	var verySmallNumber = M.SMALL_NUMBER;
   	if (places > 10) {
     	verySmallNumber = eval("1e-" + places);
   	}
@@ -268,5 +270,10 @@ var M = {
       return allRounded[0];
     }
     return Number.NaN;
+  },
+  // an approximation of a derivative, round to something like 6 decimal places if you want to avoid noise
+  // based on an equation on Wikipedia: http://en.wikipedia.org/wiki/Closure_(computer_science)
+  'derivative': function derivative(f, x) {
+    return (f(x + M.SMALL_NUMBER) - f(x)) / M.SMALL_NUMBER;
   }
 };
