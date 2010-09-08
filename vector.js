@@ -17,7 +17,6 @@ Vector.prototype.toString = function toString() {
 
 // zero, or null, vector
 Vector.zero = new Vector(0.0, 0.0, 0.0);
-}
 Vector.prototype.zero = function zero() {
     return Vector.zero;
 }
