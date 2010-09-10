@@ -540,6 +540,13 @@ Matrix.prototype.notEquals = function notEquals(other) {
     	return data[(i<<2) + j];
     }
 */
+// we could do the above with fancy stuff like making the Matrix constructor return a function but for now this is easier:
+Matrix.prototype.get = function get(x, y) {
+    if (x < 1 || x > 4 || y < 1 || y > 4) {
+        throw "Coordinates out of bounds.";
+    }
+    return this["m" + x + y];
+}
     
 // data accessor for easy conversion to float for OpenGL
 Matrix.prototype.data = function data() {
