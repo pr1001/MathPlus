@@ -15,6 +15,13 @@ Everything lives under the M object. Functions include:
 
 A stand-alone three dimensional vector class is included in `vector.js`. It has methods for common operations such as calculating a vector's length or dot product. The code is based upon Glenn Fielder's C implementation.
 
+For example:
+
+    var v1 = new Vector(1, 2, 3)
+    var v2 = new Vector(3, 2, 1)
+    var v3 = new Vector(-4, 8, -4)
+    v1.multiply(v2).equals(v3) // -> true
+
 ## Matrices
 
 As with vectors, there is a four dimensional matrix class included in a file called `matrix.js`. Again, it is a adaption of Glenn Fielder's C implementation.
