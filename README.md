@@ -7,7 +7,7 @@ Everything lives under the M object. Functions include:
 - log: Default base is 10, not e like Javascript's native Math.log.
 - ln: Log base e. Simply an alias for Javascript's native Math.log.
 - round: Default number of significant digits is 2.
-- factorial: Returns NaN for negative numbers.
+- factorial: Returns NaN for negative numbers. Thanks to @Kambfhase for his 4x speed-up! Recursion may be elegant but it's slow.
 - limit: Provides an approximation. Works in some cases with +/- Infinity. Needs some additional tweaking.
 - derivative: Given f and x, will provide an approximation of the derivative of function f at point x. Round the result to get integers for derivatives of common functions, e.g. of f(x) = 3*x.
 

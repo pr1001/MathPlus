@@ -105,13 +105,18 @@ var M = {
   // NOTE: The number is always converted to an integer
   'factorial': function factorial(num) {
     num = parseInt(num)
-    if (num == 1 || num == 0) {
-      return 1;
-    } else if (num < 0) {
-      // return NaN like supposed to for negative numbers
-      return Number.NaN;
+    if (num < 0) {
+      return NaN;
     }
-    return (num * this.factorial(num - 1));
+    if (num == 0 || num == 1) {
+      return 1;
+    }
+    
+    var result = 1;
+    do {
+      result *= num;
+    } while (--num > 1)
+    return result;
   },
   // alteration of function from http://www.ideashower.com/our_solutions/leastgreatest-common-mulitple-lcmgcm-in-php-and-javascript/
   'gcd': function gcd() {
