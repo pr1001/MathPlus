@@ -217,7 +217,7 @@ var M = {
   	}
   	
   	var allRounded = testResults.map(function(a) {
-    	return MP.round(a, places);
+    	return M.round(a, places);
   	});
   	var allEqual = true;
     for (var k = 1; k < allRounded.length; k++) {
@@ -263,7 +263,7 @@ var M = {
   	}
   	
   	var allRounded = testResults.map(function(a) {
-    	return MP.round(a, places);
+    	return M.round(a, places);
   	});
     var allEqual = true;
     for (var k = 1; k < allRounded.length; k++) {
