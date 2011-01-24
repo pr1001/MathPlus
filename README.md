@@ -10,6 +10,12 @@ Everything lives under the M object. Functions include:
 - factorial: Returns NaN for negative numbers. Thanks to @Kambfhase for passing along @nikic's significant speed-up! Recursion may be elegant but it's slow.
 - limit: Provides an approximation. Works in some cases with +/- Infinity. Needs some additional tweaking.
 - derivative: Given f and x, will provide an approximation of the derivative of function f at point x. Round the result to get integers for derivatives of common functions, e.g. of f(x) = 3*x.
+- normal: Given mean and deviation returns random values from a normal distribution.
+- randint: Given a min, and max returns a random integer in the range: min <= result <= max
+
+## Demos
+
+The demos/ subdirectory contains a few demos that demonstrate the uses of the various functions.
 
 ## Vectors
 

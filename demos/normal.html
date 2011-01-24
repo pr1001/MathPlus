@@ -1,0 +1,72 @@
+<html>
+	<head>
+		<script type="text/javascript" src="../mathplus.js"></script> 
+	</head>
+	<body>
+		<script type="text/javascript">
+			// this demo draws a random normal distributed point cloud on a canvas
+
+			// generate a normal(mean, deviation) cluster around x, y of amount points
+			function cluster(x, y, mean, deviation, amount) {
+				var result = new Array()
+				for(var i = 0; i <= amount; i++ ) {
+					result.push({
+						'x': x + M.normal(mean, deviation),
+						'y': y + M.normal(mean, deviation),
+					});
+				}
+				return result;
+			}
+			
+			// draw a small rect (a dot)
+			function dot(ctx, x, y) {
+				ctx.fillStyle = "black";
+				ctx.fillRect(x, y, 1, 1);
+			}
+
+			// main drawing function
+			function draw() {
+				// get the canvas
+				var canvas = document.getElementById("canvas");
+				var ctx = canvas.getContext("2d");
+				ctx.clearRect(0, 0, 300, 300);
+				
+				// get values from DOM
+				var x = parseInt(document.getElementById('x').value);
+				var y = parseInt(document.getElementById('y').value);
+				var mean = parseInt(document.getElementById('mean').value);
+				var deviation = parseInt(document.getElementById('deviation').value);
+				var amount = parseInt(document.getElementById('amount').value);
+				
+				// compute cluster
+				var points = cluster(x, y, mean, deviation, amount);
+				// draw cluster
+				for(var i = 0; i < points.length; i++ ) {
+					dot(ctx, points[i].x, points[i].y);
+				}
+			}
+			window.onload = draw;
+		</script> 
+		<canvas id="canvas" width="300" height="300" style="border: 1px solid grey;" ></canvas>
+		<fieldset> 
+			<legend>Parameters</legend> 
+			<div>
+				<label for="x">X, Y: </label>
+				<input id="x" value="150" size="1"/>, <input id="y" value="150" size="1"/>
+			</div>
+			<div>
+				<label for="mean">Mean:</label>
+				<input id="mean" value="-10" size="1"/>
+			</div>
+			<div>
+				<label for="deviation">Deviation:</label>
+				<input id="deviation" value="20" size="1"/>
+			</div>
+			<div>
+				<label for="amount">Amount:</label>
+				<input id="amount" value="1000" size="1"/>
+			</div>
+			<button onclick="draw()" >Draw</button>
+		</fieldset> 
+	</body>
+</html>

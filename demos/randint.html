@@ -1,0 +1,102 @@
+<html>
+	<head>
+		<script type="text/javascript" src="../mathplus.js"></script> 
+	</head>
+	<body>
+		<H1>JavaScript Math.random() Test</H1> 
+		<strong>Testing from min to max. Running iterations tests. </strong> 
+		<fieldset> 
+			<legend>Parameters</legend> 
+			<div>
+				<label for="min">Min:</label>
+				<input id="min" value="1" />
+			</div>
+			<div>
+				<label for="max">Max:</label>
+				<input id="max" value="10" />
+			</div>
+			<div>
+				<label for="iterations">Iterations:</label>
+				<input id="iterations" value="5000" />
+			</div>
+			<button onclick="draw()" >Draw</button>
+		</fieldset>
+		 
+		<script type="text/javascript">
+			function histogram(el, hist, min, max, itt) {
+				var content = '';
+				for (var i=min; i <= max; i++) {
+					//document.write (i + ': ');
+					content += i + ': ';
+					for (var j=0; j < hist[i]; j=j+(itt/500)) {
+						//document.write ('|');
+						content += '|'
+					}
+					//document.write (' ' + Math.round (hist[i]*1000/itt)/10 + '%<br>');
+					content += ' ' + Math.round (hist[i]*1000/itt)/10 + '%\n';
+				}
+				document.getElementById(el).innerHTML = '<pre>' + content + '</pre>';
+			}
+
+			// main drawing function
+			function draw() {
+				// get value from the DOM
+				var min = parseInt(document.getElementById('min').value);
+				var max = parseInt(document.getElementById('max').value);
+				var iterations = parseInt(document.getElementById('iterations').value);
+
+				// make a histogram of randint
+				var hist = new Array();
+				for (var k=min; k <= max; k++) {
+					hist[k] = 0;
+				}
+				for (var i=0; i < iterations; i++) {
+					hist[M.randint(min, max)]++;
+				}
+				histogram('randint', hist, min, max, iterations);
+
+				// make a histogram of variation 1
+				var hist = new Array();
+				for (var k=min; k <= max; k++) {
+					hist[k] = 0;
+				}
+				for (var i=0; i < iterations; i++) {
+					hist[Math.round(Math.random() * (max - min) + min)]++;
+				}
+				histogram('adhoc', hist, min, max, iterations);
+
+				// make a histogram of variation 2
+				var hist = new Array();
+				for (var k=min; k <= max; k++) {
+					hist[k] = 0;
+				}
+				for (var i=0; i < iterations; i++) {
+					hist[Math.ceil(Math.random() * (max - min + 1) + min - 1)]++;
+				}
+				histogram('ceil', hist, min, max, iterations);
+			}
+			window.onload = draw;
+		</script> 
+
+		<div>
+			<strong>M.randint()</strong>
+			<div id="randint"></div>
+		</div>
+
+		<div>
+			<strong>Ad Hoc: Math.round(Math.random() * (max - min) + min)</strong>
+			<br/>
+			<em>note: Notice the values "fall-off" near the limits of the range.</em>
+			<div id="adhoc"></div>
+		</div>
+
+		<div>
+			<strong>Ceil: Math.ceil(Math.random() * (max - min + 1) + min - 1)</strong>
+			<br/>
+			<em>note: There is a minute possibility that this function will return (min-1). This is why floor is a better choice.</em>
+			<div id="ceil"></div>
+		</div>
+
+		<p>Based on work by Andrew Penry: <a href="http://www.shawnolson.net/a/789/make-javascript-mathrandom-useful.html">Make JavaScript Math.random() useful</a>, <a href="http://thepenry.net/jsrandom.php">JavaScript Math.random() Test</a></p>
+	</body>
+</html>

@@ -95,12 +95,39 @@ var M = {
     }
   	
   	// make sure rangeEnd > rangeStart
-  	if (rangeEnd < rangeStart) {
+    if (rangeEnd < rangeStart) {
     	var tmp = rangeEnd;
     	rangeEnd = rangeStart;
     	rangeStart = tmp;
   	}
     return ((Math.random() * (rangeEnd - rangeStart)) + rangeStart);
+  },
+  // generate random integers: min <= result <= max 
+  //  see: Andrew Penry's http://www.shawnolson.net/a/789/make-javascript-mathrandom-useful.html
+  'randint': function random(min, max) {
+    if (typeof min != "number" && !(min instanceof Number)) {
+    	throw new RangeError("min must be a valid number >= 0")
+  	}
+  	if (typeof max != "number" && !(max instanceof Number)) {
+      throw new RangeError("max must be a valid number >= 0")
+  	}
+    return Math.floor(Math.random()*(max-min+1)+min)
+  },
+  // N(m,s)
+  // returns random number with normal (gaussian) distribution: mean=m, std dev=s using the box-muller transformation
+  //  see: http://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
+  'normal': function normal(mean, deviation) {   
+    if (typeof mean != "number" && !(mean instanceof Number)) {
+    	throw new RangeError("mean must be a valid number")
+  	}
+  	if (typeof deviation != "number" && !(deviation instanceof Number)) {
+      throw new RangeError("deviation must be a valid number > 0")
+  	}
+    var x = this.random(0, 1);
+    var y = this.random(0, 1);          
+    var z1 = Math.sqrt(-2*Math.log(x))*Math.cos(2*Math.PI*y);
+    // var z2 = Math.sqrt(-2*Math.log(x))*Math.sin(2*Math.PI*y);                
+    return (z1 * deviation) + mean;
   },
   // NOTE: The number is always converted to an integer
   'factorial': function factorial(num) {
