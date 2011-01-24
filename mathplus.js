@@ -118,6 +118,16 @@ var M = {
     } while (--num > 1)
     return result;
   },
+  // from http://www.merlyn.demon.co.uk/js-maths.htm#BF
+  // "Since the JavaScript Number type is an IEEE Double, it can hold factorials only up to 170! (and exactly only up to about 18!). Strings approximating to larger values can be constructed."
+  'bigFactorial': function bigFactorial(num) {
+    var result = 0
+    for (var k = 1; k <= num; k++) {
+      result += Math.log(k);
+    }
+    result *= Math.LOG10E;
+    return Math.exp((result % 1) / Math.LOG10E) + 'e' + Math.floor(result);
+  },
   // alteration of function from http://www.ideashower.com/our_solutions/leastgreatest-common-mulitple-lcmgcm-in-php-and-javascript/
   'gcd': function gcd() {
   	var args = Array.prototype.slice.call(arguments);
