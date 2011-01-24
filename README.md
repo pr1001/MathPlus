@@ -34,7 +34,7 @@ As with vectors, there is a four dimensional matrix class included in a file cal
 
 ## Credits
 
-By Peter Robinett of [Bubble Foundry](http://www.bubblefoundry.com). MathPlus is available under the MIT license:
+By Peter Robinett of [Bubble Foundry](http://www.bubblefoundry.com). The normal and randint methods are by [Jillis ter Hove](http://twitter.com/brucejillis). MathPlus is available under the MIT license:
 
 Copyright (c) 2010 Peter Robinett
 
